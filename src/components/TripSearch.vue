@@ -41,7 +41,7 @@ async function handleSearch() {
     const params = new URLSearchParams({ city: city.value, checkIn: checkIn.value, checkOut: checkOut.value })
     const response = await fetch(`http://localhost:4000/api/trip?${params}`)
     const data = await response.json()
-    emit('results', data)
+    emit('results', { ...data, _searchParams: { city: city.value, checkIn: checkIn.value, checkOut: checkOut.value } })
   } catch (err) {
     console.error('Search failed:', err)
   } finally {
