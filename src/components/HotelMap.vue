@@ -59,7 +59,7 @@
   
   <style scoped>
   .map-wrap {
-    margin-top: 16px;
+    margin-top: 24px;
     border-radius: var(--radius-lg);
     overflow: hidden;
     border: 1px solid var(--color-outline-variant);

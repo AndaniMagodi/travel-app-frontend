@@ -1,7 +1,7 @@
 <template>
     <section class="hotel-section">
       <div class="section-header">
-        <h2 class="section-title">Top Rated Hotels{{ city ? ` in ${city}` : '' }}</h2>
+        <h2 class="section-title">Top Rated Hotels{{ city ? ` In ${city.charAt(0).toUpperCase() + city.slice(1)}` : '' }}</h2>
         <div class="controls">
           <label class="rating-filter">
             <input type="checkbox" v-model="minRatingOnly" />
@@ -18,40 +18,42 @@
       </div>
   
       <div v-if="error" class="error-text">{{ error }}</div>
-      <div v-else class="hotel-scroll">
-        <div v-for="hotel in sortedHotels" :key="hotel.hotel_id" class="hotel-card">
-          <div class="hotel-image-wrap">
-            <img
-              v-if="hotel.photoUrl"
-              :src="hotel.photoUrl"
-              :alt="hotel.name"
-              class="hotel-image"
-              loading="lazy"
-            />
-            <div class="rating-badge" v-if="hotel.reviewCount > 0">
-              ★ {{ hotel.reviewScore }}
-              <span class="review-count">({{ hotel.reviewCount }})</span>
-            </div>
-          </div>
-          <h3 class="hotel-name">{{ hotel.name }}</h3>
-          <div class="hotel-footer">
-            <div v-if="hotel.price">
-              <div class="hotel-price">
-                {{ hotel.priceCurrency }} {{ hotel.price.toFixed(0) }}
+      <template v-else>
+        <div class="hotel-scroll">
+          <div v-for="hotel in sortedHotels" :key="hotel.hotel_id" class="hotel-card">
+            <div class="hotel-image-wrap">
+              <img
+                v-if="hotel.photoUrl"
+                :src="hotel.photoUrl"
+                :alt="hotel.name"
+                class="hotel-image"
+                loading="lazy"
+              />
+              <div class="rating-badge" v-if="hotel.reviewCount > 0">
+                ★ {{ hotel.reviewScore }}
+                <span class="review-count">({{ hotel.reviewCount }})</span>
               </div>
-              <div class="per-night">per night</div>
             </div>
-            <a
-              :href="hotel.bookingUrl"
-              target="_blank"
-              rel="noopener"
-              class="book-btn"
-              >Book</a
-            >
+            <h3 class="hotel-name">{{ hotel.name }}</h3>
+            <div class="hotel-footer">
+              <div v-if="hotel.price">
+                <div class="hotel-price">
+                  {{ hotel.priceCurrency }} {{ hotel.price.toFixed(0) }}
+                </div>
+                <div class="per-night">per night</div>
+              </div>
+              <a
+                :href="hotel.bookingUrl"
+                target="_blank"
+                rel="noopener"
+                class="book-btn"
+                >Book</a
+              >
+            </div>
           </div>
         </div>
-      </div>
-      <HotelMap :hotels="sortedHotels" />
+        <HotelMap :hotels="sortedHotels" />
+      </template>
     </section>
   </template>
   
@@ -60,14 +62,19 @@
   import HotelMap from './HotelMap.vue'
   
   const props = defineProps({
-  hotelsResult: { type: Object, required: true },
-  usdToZarRate: { type: Number, default: null },
-  city: { type: String, default: '' },
-})
+    hotelsResult: { type: Object, required: true },
+    usdToZarRate: { type: Number, default: null },
+    city: { type: String, default: '' },
+  })
   
   const sortBy = ref("price");
   const minRatingOnly = ref(false);
   
+  // Checks the FULL path defensively — hotelsResult.data?.data?.hotels can
+  // be missing even when status === "ok" at the outer level, if the
+  // underlying provider's own response was itself a wrapped error (e.g. a
+  // transient auth hiccup from Booking.com). This must be checked before
+  // anything downstream (the hotel list, the map) tries to read .hotels.
   const error = computed(() => {
     if (props.hotelsResult.status === "error") return props.hotelsResult.error;
     if (
@@ -96,7 +103,12 @@
   // journey on Booking.com's real site rather than completing it on ours.
   const hotels = computed(() => {
     if (props.hotelsResult.status !== "ok") return [];
-    const rawHotels = props.hotelsResult.data.data.hotels || [];
+    // Optional chaining all the way through — data.data can be a malformed
+    // error-shaped object instead of undefined, so .hotels must be read
+    // defensively even past the first ?. — this is the actual fix for the
+    // crash: data.data.hotels (no ?. before .hotels) threw when data.data
+    // existed but was shaped wrong.
+    const rawHotels = props.hotelsResult.data?.data?.hotels || [];
   
     return rawHotels.map((h) => {
       const property = h.property;
@@ -158,7 +170,7 @@
   
   <style scoped>
   .hotel-section {
-    margin-bottom: 48px;
+    margin-bottom: 32px;
   }
   
   .section-header {
@@ -180,7 +192,7 @@
   .controls {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 24px;
   }
   
   .rating-filter {
@@ -212,7 +224,7 @@
   
   .hotel-scroll {
     display: flex;
-    gap: 16px;
+    gap: 24px;
     overflow-x: auto;
     padding-bottom: 8px;
   }
@@ -282,7 +294,7 @@
     background: var(--color-primary-container);
     color: white;
     text-decoration: none;
-    padding: 8px 16px;
+    padding: 8px 24px;
     border-radius: var(--radius-md);
     font-size: 13px;
     font-weight: 600;

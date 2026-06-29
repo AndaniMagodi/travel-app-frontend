@@ -77,7 +77,7 @@
   
   .skel-row {
     display: flex;
-    gap: 16px;
+    gap: 24px;
     flex-wrap: wrap;
   }
   

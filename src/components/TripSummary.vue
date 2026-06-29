@@ -13,9 +13,7 @@
             <span>✈️ Flight — {{ cheapestFlightInfo.airline }}</span>
             <span>{{ currency }} {{ cheapestFlightInfo.amount.toFixed(0) }}</span>
           </div>
-          <div class="proportion-bar">
-            <div class="proportion-fill" :style="{ width: pct(cheapestFlightInfo.amount) + '%' }"></div>
-          </div>
+        
         </div>
   
         <div class="line-item" v-if="cheapestHotelInfo">
@@ -23,9 +21,7 @@
             <span>🏨 {{ cheapestHotelInfo.name }} — {{ nights }} {{ nights === 1 ? 'night' : 'nights' }} × {{ currency }} {{ cheapestHotelInfo.perNight.toFixed(0) }}</span>
             <span>{{ currency }} {{ (cheapestHotelInfo.perNight * nights).toFixed(0) }}</span>
           </div>
-          <div class="proportion-bar">
-            <div class="proportion-fill" :style="{ width: pct(cheapestHotelInfo.perNight * nights) + '%' }"></div>
-          </div>
+         
         </div>
   
         <div class="line-item" v-if="cheapestCarInfo">
@@ -33,9 +29,7 @@
             <span>🚗 {{ cheapestCarInfo.name }} — {{ nights }} {{ nights === 1 ? 'day' : 'days' }} × {{ currency }} {{ cheapestCarInfo.perDay.toFixed(0) }}</span>
             <span>{{ currency }} {{ (cheapestCarInfo.perDay * nights).toFixed(0) }}</span>
           </div>
-          <div class="proportion-bar">
-            <div class="proportion-fill" :style="{ width: pct(cheapestCarInfo.perDay * nights) + '%' }"></div>
-          </div>
+         
         </div>
       </div>
   
@@ -137,7 +131,7 @@
   <style scoped>
   .summary-card {
     position: sticky;
-    top: 16px;
+    top: 24px;
     z-index: 1000;
     background: var(--color-primary);
     color: white;
@@ -150,7 +144,7 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
   }
   
   .summary-label {
@@ -175,7 +169,7 @@
     flex-direction: column;
     gap: 14px;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
-    padding-top: 16px;
+    padding-top: 24px;
   }
   
   .line-item {
@@ -206,7 +200,7 @@
   }
   
   .summary-note {
-    margin: 16px 0 0;
+    margin: 24px 0 0;
     font-size: 11px;
     opacity: 0.7;
   }

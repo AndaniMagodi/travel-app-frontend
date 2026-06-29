@@ -1,7 +1,7 @@
 <template>
     <section class="flight-section">
         <div class="section-header">
-            <h2 class="section-title">Flight Options {{ city ? ` to ${city}` : '' }}</h2>
+            <h2 class="section-title">Flight Options {{ city ? ` To ${city.charAt(0).toUpperCase() + city.slice(1)}` : '' }}</h2>
             <div class="sort-control">
                 <label for="sort-select">Sort by</label>
                 <select id="sort-select" v-model="sortBy">
@@ -267,7 +267,7 @@ const displayedFlights = computed(() => visibleFlights.value.slice(0, visibleCou
     align-items: center;
     font-weight: 600;
     font-size: 14px;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
     color: var(--color-primary);
 }
 
@@ -372,7 +372,7 @@ const displayedFlights = computed(() => visibleFlights.value.slice(0, visibleCou
 .route-time {
     font-weight: 700;
     color: var(--color-primary);
-    font-size: 16px;
+    font-size: 24px;
 }
 
 .route-code {
@@ -417,7 +417,7 @@ const displayedFlights = computed(() => visibleFlights.value.slice(0, visibleCou
     background: var(--color-primary-container);
     color: white;
     text-decoration: none;
-    padding: 6px 16px;
+    padding: 6px 24px;
     border-radius: var(--radius-md);
     font-size: 13px;
     font-weight: 600;

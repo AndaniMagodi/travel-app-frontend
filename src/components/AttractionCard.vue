@@ -1,6 +1,6 @@
 <template>
     <section class="attraction-section" v-if="shouldShow">
-      <h2 class="section-title">Things to Do{{ city ? ` in ${city}` : '' }}</h2>
+      <h2 class="section-title">Things to Do{{ city ? ` In ${city.charAt(0).toUpperCase() + city.slice(1)}` : '' }}</h2>
   
       <div v-if="error" class="error-text">{{ error }}</div>
   
@@ -94,7 +94,7 @@
   
   .attraction-scroll {
     display: flex;
-    gap: 16px;
+    gap: 24px;
     overflow-x: auto;
     padding-bottom: 8px;
   }

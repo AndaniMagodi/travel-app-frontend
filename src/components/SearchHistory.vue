@@ -61,7 +61,7 @@
     background: var(--color-surface-container-lowest);
     border: 1px solid var(--color-outline-variant);
     border-radius: 999px;
-    padding: 8px 16px;
+    padding: 8px 24px;
     font-family: var(--font-body);
     font-size: 13px;
     cursor: pointer;

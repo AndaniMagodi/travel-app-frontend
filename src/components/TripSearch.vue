@@ -61,7 +61,7 @@ async function handleSearch() {
     padding: 24px;
     display: flex;
     align-items: flex-end;
-    gap: 16px;
+    gap: 24px;
     flex-wrap: wrap;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
     margin-bottom: 40px;

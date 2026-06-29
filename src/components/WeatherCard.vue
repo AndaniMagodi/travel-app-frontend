@@ -1,6 +1,6 @@
 <template>
     <section class="weather-section">
-      <h2 class="section-title">Weather Forecast{{ city ? ` in ${city}` : '' }}</h2>
+      <h2 class="section-title">Weather Forecast{{ city ? ` For  ${city.charAt(0).toUpperCase() + city.slice(1)}` : '' }}</h2>
       <div v-if="error" class="error-text">{{ error }}</div>
       <div v-else-if="days.length === 0" class="empty-state">
         No weather data available for these dates.
@@ -183,7 +183,7 @@
   
   .stat-tiles {
     display: flex;
-    gap: 16px;
+    gap: 24px;
     margin-top: 18px;
     padding-top: 18px;
     border-top: 1px solid var(--color-outline-variant);

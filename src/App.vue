@@ -114,7 +114,7 @@ async function loadPastSearch(id) {
 .results-header {
   font-size: 14px;
   color: var(--color-on-surface-variant);
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   text-transform: capitalize;
 }
 
