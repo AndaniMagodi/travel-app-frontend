@@ -68,7 +68,7 @@ function handleResults(data) {
 
 async function loadPastSearch(id) {
   loading.value = true
-  const response = await fetch(`http://localhost:4000/api/history/${id}`)
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/history/${id}`)
   const entry = await response.json()
   tripData.value = {
     ...entry.results,

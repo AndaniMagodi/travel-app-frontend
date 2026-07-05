@@ -24,7 +24,7 @@
   
   async function loadHistory() {
     try {
-      const response = await fetch('http://localhost:4000/api/history')
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/history`)
       entries.value = await response.json()
     } catch (err) {
       console.error('Failed to load history:', err)

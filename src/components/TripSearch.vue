@@ -39,7 +39,7 @@ async function handleSearch() {
   emit('loading', true)
   try {
     const params = new URLSearchParams({ city: city.value, checkIn: checkIn.value, checkOut: checkOut.value })
-    const response = await fetch(`http://localhost:4000/api/trip?${params}`)
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/trip?${params}`)
     const data = await response.json()
     emit('results', { ...data, _searchParams: { city: city.value, checkIn: checkIn.value, checkOut: checkOut.value } })
   } catch (err) {
