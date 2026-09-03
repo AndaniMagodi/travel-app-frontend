@@ -10,8 +10,15 @@ Create a `.env` file in this folder with:
     VITE_API_URL=http://localhost:4000
 Run the dev server:
     npm run dev
-The backend (see the sibling `travel-app-backend` repo) must be running
-separately for searches to return real data.
+With the URL above, the backend (see the sibling `travel-app-backend` repo)
+must be running separately for searches to return real data. Alternatively
+point `VITE_API_URL` at the deployed backend
+(`https://travel-backend-24498069160.africa-south1.run.app`) and the app
+works with no local backend at all.
+
+Note that `.env` must have each variable on its own line. Collapsing them
+onto one line silently leaves `VITE_API_URL` undefined, and every search
+then requests `undefined/api/trip`.
 ## Structure
 - TripSearch.vue — the search form (city, check-in, check-out)
 - SearchHistory.vue — recent searches, reloads a past result instantly from
@@ -54,3 +61,27 @@ things:
 The save happens "fire and forget" after the response is already prepared —
 a MongoDB failure never blocks or delays the actual `/api/trip` response,
 it's only logged.
+## Deployment (Vercel)
+
+Hosted on Vercel, deployed from `main`. Build settings live in
+`vercel.json` — framework `vite`, build command `npm run build`, output
+`dist` — so the project needs no configuration in the Vercel dashboard.
+
+`vercel.json` also sets `build.env.VITE_API_URL`. This matters more than it
+looks: Vite inlines env vars at *build* time, and `.env` is gitignored, so
+a build without that variable produces a bundle where `VITE_API_URL` is
+`undefined` and every search requests `undefined/api/trip`. The value is
+the public Cloud Run backend URL, which already ships inside the client
+bundle, so it is not a secret. `VITE_UNSPLASH_KEY` is deliberately absent —
+nothing reads it, and a key does not belong in version control.
+
+The `rewrites` rule serves `index.html` for any path. The app has no
+client-side router today, so it is inert, but it stops a future route from
+404ing on refresh.
+
+To verify a deploy is wired up correctly, check that the built bundle
+contains the backend URL and no `undefined/api`:
+
+    curl -s <deploy-url>/assets/index-*.js | grep -c undefined/api
+
+Zero is correct.
