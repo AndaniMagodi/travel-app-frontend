@@ -58,15 +58,16 @@
   </script>
   
   <style scoped>
+  /* Spacing and the section heading live in HotelCard's .map-block wrapper. */
   .map-wrap {
-    margin-top: 24px;
     border-radius: var(--radius-lg);
     overflow: hidden;
     border: 1px solid var(--color-outline-variant);
+    box-shadow: var(--shadow-sm);
   }
-  
+
   .map-container {
-    height: 280px;
+    height: 20rem;
     width: 100%;
   }
   </style>

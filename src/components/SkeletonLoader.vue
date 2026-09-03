@@ -1,123 +1,137 @@
 <template>
-    <div class="skeleton-wrap">
-      <!-- Flights: matches FlightCard's filter sidebar + row list -->
-      <div class="skeleton-section">
-        <div class="skel-title"></div>
-        <div class="skel-flight-layout">
-          <div class="skel-filters"></div>
-          <div class="skel-flight-rows">
-            <div class="skel-line" v-for="n in 3" :key="n"></div>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Hotels: matches HotelCard's horizontal scroll of wide cards -->
-      <div class="skeleton-section">
-        <div class="skel-title"></div>
-        <div class="skel-row">
-          <div class="skel-box wide" v-for="n in 4" :key="n"></div>
-        </div>
-      </div>
-  
-      <!-- Weather + Cars: matches the side-by-side compact grid -->
-      <div class="skel-compact-grid">
-        <div class="skeleton-section">
-          <div class="skel-title"></div>
-          <div class="skel-line" v-for="n in 4" :key="n"></div>
-        </div>
-        <div class="skeleton-section">
-          <div class="skel-title"></div>
-          <div class="skel-row">
-            <div class="skel-box" v-for="n in 2" :key="n"></div>
-          </div>
+  <div class="skeleton-wrap" role="status" aria-live="polite">
+    <span class="sr-only">Loading your trip results…</span>
+
+    <!-- Trip cost summary -->
+    <div class="skel-summary shimmer"></div>
+
+    <!-- Flights: filter sidebar + row list -->
+    <div class="skeleton-section">
+      <div class="skel-title shimmer"></div>
+      <div class="skel-split">
+        <div class="skel-filters shimmer"></div>
+        <div class="skel-rows">
+          <div class="skel-row-card shimmer" v-for="n in 4" :key="n"></div>
         </div>
       </div>
     </div>
-  </template>
-  
-  <script setup>
-  </script>
-  
-  <style scoped>
-  .skeleton-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
+
+    <!-- Hotels: horizontal rail of cards -->
+    <div class="skeleton-section">
+      <div class="skel-title shimmer"></div>
+      <div class="skel-rail">
+        <div class="skel-card shimmer" v-for="n in 4" :key="n"></div>
+      </div>
+    </div>
+
+    <!-- Weather: stacked day rows -->
+    <div class="skeleton-section">
+      <div class="skel-title shimmer"></div>
+      <div class="skel-panel shimmer"></div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+</script>
+
+<style scoped>
+.skeleton-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* One shimmer definition, reused — this used to be copy-pasted onto five
+   separate rules. */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-container-low) 25%,
+    var(--color-surface-container) 50%,
+    var(--color-surface-container-low) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.skel-summary {
+  height: 11rem;
+  border-radius: var(--radius-xl);
+}
+
+.skel-title {
+  width: 13rem;
+  height: 1.5rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-5);
+}
+
+.skel-split {
+  display: grid;
+  grid-template-columns: 14rem 1fr;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.skel-filters {
+  height: 13rem;
+  border-radius: var(--radius-lg);
+}
+
+.skel-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.skel-row-card {
+  height: 5.5rem;
+  border-radius: var(--radius-lg);
+}
+
+.skel-rail {
+  display: flex;
+  gap: var(--space-4);
+  overflow: hidden;
+}
+
+.skel-card {
+  flex: 0 0 auto;
+  width: 16.5rem;
+  height: 17rem;
+  border-radius: var(--radius-lg);
+}
+
+.skel-panel {
+  height: 18rem;
+  border-radius: var(--radius-lg);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
   }
-  
-  .skel-title {
-    width: 180px;
-    height: 22px;
-    border-radius: 4px;
-    margin-bottom: 20px;
-    background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.4s infinite;
+  100% {
+    background-position: -200% 0;
   }
-  
-  .skel-flight-layout {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .skel-split {
+    grid-template-columns: 1fr;
   }
-  
-  .skel-filters {
-    height: 180px;
-    border-radius: 12px;
-    background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.4s infinite;
-  }
-  
-  .skel-flight-rows {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .skel-row {
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
-  
-  .skel-box {
-    width: 110px;
-    height: 110px;
-    border-radius: 12px;
-    background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.4s infinite;
-  }
-  
-  .skel-box.wide {
-    width: 240px;
-    height: 180px;
-  }
-  
-  .skel-line {
-    height: 70px;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.4s infinite;
-  }
-  
-  .skel-compact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-  }
-  
-  @media (max-width: 800px) {
-    .skel-compact-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-  
-  @keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-  </style>
+}
+</style>
