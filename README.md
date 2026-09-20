@@ -1,5 +1,9 @@
 # Travel Planner — Frontend
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Open%20App-00C7B7?logo=vercel&logoColor=white)](https://travel-app-frontend-beryl.vercel.app/)
+
+[Live demo](https://travel-app-frontend-beryl.vercel.app/) · [Backend repository](https://github.com/AndaniMagodi/travel-app-backend)
+
 Vue 3 single-page app for the Travel Planner. Takes a destination city and
 travel dates, and renders weather, hotels, flights, car rentals, and
 attractions for that trip in one consolidated view.
@@ -37,18 +41,19 @@ not a deep link to the exact priced offer, since that requires a more
 involved booking-flow integration the providers don't expose simply. Car
 rental is the exception: Expedia's API returns a real per-offer booking URL,
 so those links go straight to the specific listed car.
-Flight, hotel, and car rental cards share the same filter/sort/pagination
-pattern (a left-hand filter sidebar, a sort or filter checklist derived from
-the actual results already in memory, and a "Show more results" button) —
-deliberately reused across all three rather than three different
-implementations.
+Flight, hotel, and car rental cards share a consistent results-list pattern,
+with controls suited to each category. Hotels include a rating filter and
+price/rating sorting, flights include airline and nonstop filters plus sorting,
+and car rentals include a vendor filter with a "Show more" control.
 ## Known limitations
 - No cross-highlighting between the hotel map and hotel cards yet (clicking
   a card doesn't highlight its map pin, or vice versa) — a natural next
   step, not built due to time constraints.
 - The trip cost summary estimates from the *cheapest* item per category,
   not a specific selected itinerary — clearly labeled as an estimate in the UI.
-## Persistence (MongoDB)
+## Backend behavior: Persistence (MongoDB)
+
+The following persistence logic lives in the [backend repository](https://github.com/AndaniMagodi/travel-app-backend), not in this frontend codebase.
 Every search is saved to MongoDB via Mongoose (`models/SearchHistory.js`),
 including the full result payload for all five categories. This powers two
 things:
