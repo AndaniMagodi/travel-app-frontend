@@ -5,7 +5,7 @@
   "outputDirectory": "dist",
   "build": {
     "env": {
-      "VITE_API_URL": "https://travel-backend-24498069160.africa-south1.run.app"
+      "VITE_API_URL": "https://andani-travel-api.onrender.com"
     }
   },
   "rewrites": [
