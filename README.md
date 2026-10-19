@@ -3,6 +3,7 @@
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Open%20App-00C7B7?logo=vercel&logoColor=white)](https://travel-app-frontend-beryl.vercel.app/)
 
 [Live demo](https://travel-app-frontend-beryl.vercel.app/) · [Backend repository](https://github.com/AndaniMagodi/travel-app-backend)
+API health: https://andani-travel-api.onrender.com/health
 
 Vue 3 single-page app for the Travel Planner. Takes a destination city and
 travel dates, and renders weather, hotels, flights, car rentals, and
@@ -17,7 +18,7 @@ Run the dev server:
 With the URL above, the backend (see the sibling `travel-app-backend` repo)
 must be running separately for searches to return real data. Alternatively
 point `VITE_API_URL` at the deployed backend
-(`https://travel-backend-24498069160.africa-south1.run.app`) and the app
+(`https://andani-travel-api.onrender.com`) and the app
 works with no local backend at all.
 
 Note that `.env` must have each variable on its own line. Collapsing them
@@ -76,7 +77,7 @@ Hosted on Vercel, deployed from `main`. Build settings live in
 looks: Vite inlines env vars at *build* time, and `.env` is gitignored, so
 a build without that variable produces a bundle where `VITE_API_URL` is
 `undefined` and every search requests `undefined/api/trip`. The value is
-the public Cloud Run backend URL, which already ships inside the client
+the public Render backend URL, which already ships inside the client
 bundle, so it is not a secret. `VITE_UNSPLASH_KEY` is deliberately absent —
 nothing reads it, and a key does not belong in version control.
 
